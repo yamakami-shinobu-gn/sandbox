@@ -47,12 +47,12 @@ jobs:
           identify -format "%[width],%[height]" ./Sources/Icon_foreground.png >> $INPUT_FG_SIZE
 
       - name: Error
-        if: $INPUT_BG_SIZE != '1536,1536' || $INPUT_FG_SIZE != '1536,1536'
+        if: ${{$INPUT_BG_SIZE != '1536,1536' || $INPUT_FG_SIZE != '1536,1536'}}
         run: echo "Invalid image size!"
 
       - name: Convert
         run: |
-          if: steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'
+          if: ${{steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'}}
           mkdir -p "$HOME/workdir"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
           ls $HOME/workdir/AppIcons/Android/drawable-hdpi
