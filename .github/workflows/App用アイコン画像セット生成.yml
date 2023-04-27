@@ -37,19 +37,21 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Check
-        id: checkImageSize
+        id: checkBGImageSize
         run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_background.png > $INPUT_BG_SIZE
-          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png > $INPUT_FG_SIZE
-          echo "INPUT_BG_SIZE=$INPUT_BG_SIZE" >> $GITHUB_OUTPUT
-          echo "INPUT_FG_SIZE=$INPUT_FG_SIZE" >> $GITHUB_OUTPUT
+          identify -format "%[width],%[height]" ./Sources/Icon_background.png
+
+      - name: Check
+        id: checkFGImageSize
+        run: |
+          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
 
       - name: Error
-        if: ${{steps.checkImageSize.outputs.INPUT_BG_SIZE != '1536,1536' || steps.checkImageSize.outputs.INPUT_FG_SIZE != '1536,1536'}}
+        if: ${{steps.checkBGImageSize.outputs.* != '1536,1536' || steps.checkFGImageSize.outputs.* != '1536,1536'}}
         run: echo "Invalid image size!"
 
       - name: Convert
-        if: ${{steps.checkImageSize.outputs.INPUT_BG_SIZE == '1536,1536' && steps.checkImageSize.outputs.INPUT_FG_SIZE == '1536,1536'}}
+        if: ${{steps.checkBGImageSize.outputs.* == '1536,1536' && steps.checkFGImageSize.outputs.* == '1536,1536'}}
         run: |
           mkdir -p "$HOME/workdir"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
