@@ -49,12 +49,12 @@ jobs:
           echo "##[set-output name=result;]command result"
 
       - name: Error
-        if: ${{steps.checkBGImageSize.outputs.result != '1536,1536' || steps.checkFGImageSize.outputs.result != '1536,1536'}}
+        if: steps.checkBGImageSize.outputs.result != '1536,1536' || steps.checkFGImageSize.outputs.result != '1536,1536'
         run: echo "Invalid image size!"
 
       - name: Convert
         run: |
-          if: ${{steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'}}
-          mkdir -p "$HOME/work"
-          sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/work
+          if: steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'
+          mkdir -p "$HOME/workdir"
+          sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
           ls $HOME/work/AppIcons/Android/drawable-hdpi
