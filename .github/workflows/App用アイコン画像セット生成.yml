@@ -53,9 +53,8 @@ jobs:
         id: get_image_size
         run: |
           ls ./Sources/
-          identify -version
-          echo "background_image_size=$('identify ./Sources/Icon_background.png')" >> $GITHUB_OUTPUT
-          echo "foreground_image_size=$('identify ./Sources/Icon_foreground.png')" >> $GITHUB_OUTPUT
+          identify -format "background_image_size=%[width],%[height]" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
+//          echo "foreground_image_size="identify ./Sources/Icon_foreground.png')" >> $GITHUB_OUTPUT
 
       - name: Check image size
         run: |
