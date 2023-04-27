@@ -63,7 +63,7 @@ jobs:
 
       - name: Check image size
         run: |
-          if [[ "$(steps.get_bg_image_size.background_image_size)" == '1536,1536' ]]; then
+          if [[ "${{steps.get_bg_image_size.output.stdout}}" == '1536,1536' ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
             ls $HOME/workdir/AppIcons/Android/drawable-hdpi
