@@ -6,7 +6,7 @@ name: App用アイコン画像セット生成
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - Sources/Icon_background.png
       - Sources/Icon_foreground.png
