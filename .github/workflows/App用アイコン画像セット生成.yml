@@ -39,17 +39,15 @@ jobs:
       - name: Check
         id: checkBGImageSize
         run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_background.png
-          echo "##[set-output name=result;]command result" >> $VALID_BG
+          identify -format "%[width],%[height]" ./Sources/Icon_background.png >> $INPUT_BG_SIZE
 
       - name: Check
         id: checkFGImageSize
         run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
-          echo "##[set-output name=result;]command result" >> VALID_FG
+          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png >> $INPUT_FG_SIZE
 
       - name: Error
-        if: steps.checkBGImageSize.outputs.result != '1536,1536' || steps.checkFGImageSize.outputs.result != '1536,1536'
+        if: $INPUT_BG_SIZE != '1536,1536' || $INPUT_FG_SIZE != '1536,1536'
         run: echo "Invalid image size!"
 
       - name: Convert
