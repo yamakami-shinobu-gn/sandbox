@@ -45,6 +45,9 @@ jobs:
         id: checkFGImageSize
         run: |
           identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
+      
+      - name: Debug
+        run: echo steps.checkBGImageSize.outputs.*
 
       - name: Error
         if: ${{steps.checkBGImageSize.outputs.* != '1536,1536' || steps.checkFGImageSize.outputs.* != '1536,1536'}}
