@@ -37,22 +37,20 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Check
-        id: checkBGImageSize
+        id: checkImageSize
         run: |
           identify -format "%[width],%[height]" ./Sources/Icon_background.png >> $INPUT_BG_SIZE
-
-      - name: Check
-        id: checkFGImageSize
-        run: |
           identify -format "%[width],%[height]" ./Sources/Icon_foreground.png >> $INPUT_FG_SIZE
+          echo "INPUT_BG_SIZE=$INPUT_BG_SIZE" >> $GITHUB_OUTPUT
+          echo "INPUT_FG_SIZE=$INPUT_FG_SIZE" >> $GITHUB_OUTPUT
 
       - name: Error
-        if: ${{$INPUT_BG_SIZE != '1536,1536' || $INPUT_FG_SIZE != '1536,1536'}}
+        if: ${{steps.checkImageSize.outputs.INPUT_BG_SIZE != '1536,1536' || steps.checkImageSize.outputs.INPUT_FG_SIZE != '1536,1536'}}
         run: echo "Invalid image size!"
 
       - name: Convert
+        if: ${{steps.checkImageSize.outputs.INPUT_BG_SIZE == '1536,1536' && steps.checkImageSize.outputs.INPUT_FG_SIZE == '1536,1536'}}
         run: |
-          if: ${{steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'}}
           mkdir -p "$HOME/workdir"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
           ls $HOME/workdir/AppIcons/Android/drawable-hdpi
