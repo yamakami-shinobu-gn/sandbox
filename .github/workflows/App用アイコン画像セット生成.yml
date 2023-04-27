@@ -39,8 +39,8 @@ jobs:
       - name: Check
         id: checkImageSize
         run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_background.png >> $INPUT_BG_SIZE
-          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png >> $INPUT_FG_SIZE
+          identify -format "%[width],%[height]" ./Sources/Icon_background.png > $INPUT_BG_SIZE
+          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png > $INPUT_FG_SIZE
           echo "INPUT_BG_SIZE=$INPUT_BG_SIZE" >> $GITHUB_OUTPUT
           echo "INPUT_FG_SIZE=$INPUT_FG_SIZE" >> $GITHUB_OUTPUT
 
