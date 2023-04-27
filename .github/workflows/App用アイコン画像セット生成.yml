@@ -52,8 +52,8 @@ jobs:
       - name: Get image size
         id: get_image_size
         run: |
-          echo "background_image_size=$('identify -format "%[width],%[height]" "$github_workspace/Sources/Icon_background.png"')" >> $GITHUB_OUTPUT
-          echo "foreground_image_size=$('identify -format "%[width],%[height]" "$github_workspace/Sources/Icon_foreground.png"')" >> $GITHUB_OUTPUT
+          echo "background_image_size=$('identify -format "%[width],%[height]" "$GITHUB_WORKSPACE/Sources/Icon_background.png"')" >> $GITHUB_OUTPUT
+          echo "foreground_image_size=$('identify -format "%[width],%[height]" "$GITHUB_WORKSPACE/Sources/Icon_foreground.png"')" >> $GITHUB_OUTPUT
 
       - name: Check image size
         run: |
