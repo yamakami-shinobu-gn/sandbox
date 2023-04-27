@@ -57,13 +57,13 @@ jobs:
         id: get_image_size
         run: |
           ls ./Sources/
-          echo "size = ${{steps.get_bg_image_size.output.stdout}}"
+          echo "size = $(steps.get_bg_image_size.output.stdout)"
           identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
           identify -format "foreground_image_size=%[width],%[height]\n" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
 
       - name: Check image size
         run: |
-          if [[ "${{ steps.get_bg_image_size.background_image_size }}" == '1536,1536' ]]; then
+          if [[ "$(steps.get_bg_image_size.background_image_size)" == '1536,1536' ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
             ls $HOME/workdir/AppIcons/Android/drawable-hdpi
