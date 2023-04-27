@@ -52,12 +52,12 @@ jobs:
       - name: Get Background image size
         id: checkBGImageSize
         run: |
-          identify -format "bg_image_size=%[width],%[height]" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
+          identify -format "%[width],%[height]" ./Sources/Icon_background.png
 
       - name: Get Foreground image size
         id: checkFGImageSize
         run: |
-          identify -format "fg_image_size=%[width],%[height]" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
+          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
 
       - name: Check image size
         run: |
