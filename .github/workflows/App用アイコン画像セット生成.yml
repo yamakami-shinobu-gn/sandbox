@@ -30,15 +30,6 @@ jobs:
         run: identify
         id: identify_output
 
-      - name: Check for "Hoge" string
-        run: |
-          if [[ "${{ steps.identify_output.stdout }}" == *"Hoge"* ]]; then
-            echo "Hoge string found"
-            sh huga.sh
-          else
-            echo "Hoge string not found"
-          fi
-
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -63,7 +54,7 @@ jobs:
 
       - name: Check image size
         run: |
-          if [[ ${{ steps.get_bg_image_size.output.stdout }} == '1536,1536' ]]; then
+          if [[ ${{ steps.get_bg_image_size.output.stdout }} == "1536,1536" ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
             ls $HOME/workdir/AppIcons/Android/drawable-hdpi
