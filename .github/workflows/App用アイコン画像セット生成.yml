@@ -57,4 +57,4 @@ jobs:
           if: steps.checkBGImageSize.outputs.result == '1536,1536' && steps.checkFGImageSize.outputs.result == '1536,1536'
           mkdir -p "$HOME/workdir"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
-          ls $HOME/work/AppIcons/Android/drawable-hdpi
+          ls $HOME/workdir/AppIcons/Android/drawable-hdpi
