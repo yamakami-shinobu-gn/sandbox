@@ -49,10 +49,15 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Get Background Image Size
+        id: get_bg_image_size
+        run: identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png
+
       - name: Get image size
         id: get_image_size
         run: |
           ls ./Sources/
+          echo "size = ${{steps.get_bg_image_size.stdout}}"
           identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
           identify -format "foreground_image_size=%[width],%[height]\n" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
 
