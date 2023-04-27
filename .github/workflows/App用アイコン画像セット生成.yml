@@ -37,24 +37,17 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Check
-        id: checkBGImageSize
+        id: checkImageSize
         run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_background.png
-
-      - name: Check
-        id: checkFGImageSize
-        run: |
-          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
-      
-      - name: Debug
-        run: echo ${{steps.checkBGImageSize.outputs.*}}
+          identify -format "bg_image_size=%[width],%[height]" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
+          identify -format "fg_image_size=%[width],%[height]" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
 
       - name: Error
-        if: ${{steps.checkBGImageSize.outputs.* != '1536,1536' || steps.checkFGImageSize.outputs.* != '1536,1536'}}
+        if: ${{steps.checkImageSize.outputs.bg_image_size != '1536,1536' || steps.checkImageSize.outputs.fg_image_size != '1536,1536'}}
         run: echo "Invalid image size!"
 
       - name: Convert
-        if: ${{steps.checkBGImageSize.outputs.* == '1536,1536' && steps.checkFGImageSize.outputs.* == '1536,1536'}}
+        if: ${{steps.checkImageSize.outputs.bg_image_size == '1536,1536' && steps.checkImageSize.outputs.fg_image_size == '1536,1536'}}
         run: |
           mkdir -p "$HOME/workdir"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
