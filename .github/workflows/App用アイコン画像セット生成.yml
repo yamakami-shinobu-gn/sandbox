@@ -40,13 +40,13 @@ jobs:
         id: checkBGImageSize
         run: |
           identify -format "%[width],%[height]" ./Sources/Icon_background.png
-          echo "##[set-output name=result;]command result"
+          echo "##[set-output name=result;]command result" >> $VALID_BG
 
       - name: Check
         id: checkFGImageSize
         run: |
           identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
-          echo "##[set-output name=result;]command result"
+          echo "##[set-output name=result;]command result" >> VALID_FG
 
       - name: Error
         if: steps.checkBGImageSize.outputs.result != '1536,1536' || steps.checkFGImageSize.outputs.result != '1536,1536'
