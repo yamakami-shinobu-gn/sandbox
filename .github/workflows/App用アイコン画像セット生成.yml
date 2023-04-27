@@ -36,9 +36,25 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Check
+        id: checkBGImageSize
+        run: |
+          identify -format "%[width],%[height]" ./Sources/Icon_background.png
+          echo "##[set-output name=result;]command result"
+
+      - name: Check
+        id: checkFGImageSize
+        run: |
+          identify -format "%[width],%[height]" ./Sources/Icon_foreground.png
+          echo "##[set-output name=result;]command result"
+
+      - name: Error
+        if: steps.checkBGImageSize.outputs.result != "1536,1536" || steps.checkFGImageSize.outputs.result != "1536,1536"
+        run: echo "Invalid image size!"
+
       - name: Convert
         run: |
-          mkdir "$HOME/work"
+          if: steps.checkBGImageSize.outputs.result == "1536,1536" && steps.checkFGImageSize.outputs.result == "1536,1536"
+          mkdir -p "$HOME/work"
           sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/work
           ls $HOME/work/AppIcons/Android/drawable-hdpi
-          
