@@ -29,6 +29,7 @@ jobs:
       - name: Run identify command
         run: identify
         id: identify_output
+
       - name: Check for "Hoge" string
         run: |
           if [[ "${{ steps.identify_output.stdout }}" == *"Hoge"* ]]; then
@@ -48,19 +49,23 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Check
-        id: checkImageSize
+      - name: Get Background image size
+        id: checkBGImageSize
         run: |
           identify -format "bg_image_size=%[width],%[height]" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
+
+      - name: Get Foreground image size
+        id: checkFGImageSize
+        run: |
           identify -format "fg_image_size=%[width],%[height]" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
 
-      - name: Error
-        if: ${{steps.checkImageSize.outputs.bg_image_size != '1536,1536' || steps.checkImageSize.outputs.fg_image_size != '1536,1536'}}
-        run: echo "Invalid image size!"
-
-      - name: Convert
-        if: ${{steps.checkImageSize.outputs.bg_image_size == '1536,1536' && steps.checkImageSize.outputs.fg_image_size == '1536,1536'}}
+      - name: Check image size
         run: |
-          mkdir -p "$HOME/workdir"
-          sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
-          ls $HOME/workdir/AppIcons/Android/drawable-hdpi
+          if [[ "${{ steps.checkBGImageSize.stdout }}" == '1536,1536' && "${{ steps.checkFGImageSize.stdout }}" == '1536,1536' ]]; then
+            echo ""
+            mkdir -p "$HOME/workdir"
+            sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
+            ls $HOME/workdir/AppIcons/Android/drawable-hdpi
+          else
+            echo "Invalid image size!"
+          fi
