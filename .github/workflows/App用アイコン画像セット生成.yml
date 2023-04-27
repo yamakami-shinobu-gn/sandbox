@@ -26,6 +26,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Run identify command
+        run: identify
+        id: identify_output
+      - name: Check for "Hoge" string
+        run: |
+          if [[ "${{ steps.identify_output.stdout }}" == *"Hoge"* ]]; then
+            echo "Hoge string found"
+            sh huga.sh
+          else
+            echo "Hoge string not found"
+          fi
+
       - name: Install dependencies
         run: |
           sudo apt-get update
