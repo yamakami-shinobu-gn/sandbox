@@ -48,7 +48,7 @@ jobs:
         id: get_image_size
         run: |
           ls ./Sources/
-          echo "size = ${{steps.get_bg_image_size.stdout}}"
+          echo "size = ${{steps.get_bg_image_size.output.stderr}}"
           identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png >> $GITHUB_OUTPUT
           identify -format "foreground_image_size=%[width],%[height]\n" ./Sources/Icon_foreground.png >> $GITHUB_OUTPUT
 
