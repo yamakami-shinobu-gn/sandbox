@@ -21,6 +21,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      # Setting an environment variable with the value of a configuration variable
+      env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -43,17 +47,7 @@ jobs:
       - name: Get Background Image Size
         id: get_bg_image_size
         run: |
-          BG_IMAGE_SIZE = $(identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png)
-          echo "${BG_IMAGE_SIZE}"
-          echo "bg_image_size=${BG_IMAGE_SIZE}" >> $GITHUB_ENV
-
-      - name: Get image size
-        id: get_image_size
-        run: |
-          ls ./Sources/
-          echo "size = ${{steps.get_bg_image_size.stdout}}"
-          identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png
-          identify -format "foreground_image_size=%[width],%[height]\n" ./Sources/Icon_foreground.png
+          echo "$(identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png)"
 
       - name: Check image size
         run: |
