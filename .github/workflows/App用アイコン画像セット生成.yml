@@ -6,7 +6,7 @@ name: App用アイコン画像セット生成
 on:
   push:
     branches:
-      - master
+      - app-icons
     paths:
       - Sources/Icon_background.png
       - Sources/Icon_foreground.png
@@ -44,30 +44,32 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Get Background Image Size
-        id: get_bg_image_size
-        run: |
-          echo ""
-
       - name: Check image size
         run: |
           if [[ $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == "1536,1536" 
           && $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
-            ls $HOME/workdir/AppIcons/Android/drawable-hdpi
-            exit 0
+            cp -r "$HOME/workdir/AppIcons" .
           else
             echo "Invalid image size!"
             exit 1
           fi
 
-  commit:
-    runs-on: ubuntu-latest
-    needs: build
-    if: success()
-    steps:
-      - name: test
-        run: |
-          ls $HOME/workdir/AppIcons/Android/drawable-hdpi
+      - name: Add and Commit
+        uses: EndBug/add-and-commit@v7
+        with:
+          branch: app-icons
+          message: アプリ用アイコンの更新
+          add: ./AppIcons
+
+      - name: Create pull request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: app-icons
+          destination_branch: master
+          pr_title: アプリ用アイコンの更新
+          pr_template: ${{ env.PR_TEMPLATE }}
+          pr_label: ${{ env.PR_LABEL }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
