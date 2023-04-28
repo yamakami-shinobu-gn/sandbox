@@ -47,11 +47,12 @@ jobs:
       - name: Get Background Image Size
         id: get_bg_image_size
         run: |
-          echo "$(identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png)"
+          echo ""
 
       - name: Check image size
         run: |
-          if [[ ${{ env.bg_image_size }} == "1536,1536" ]]; then
+          if [[ $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == "1536,1536" 
+          && $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
             ls $HOME/workdir/AppIcons/Android/drawable-hdpi
