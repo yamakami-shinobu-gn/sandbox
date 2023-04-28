@@ -44,6 +44,7 @@ jobs:
         id: get_bg_image_size
         run: |
           BG_IMAGE_SIZE = $(identify -format "background_image_size=%[width],%[height]\n" ./Sources/Icon_background.png)
+          echo "${BG_IMAGE_SIZE}"
           echo "bg_image_size=${BG_IMAGE_SIZE}" >> $GITHUB_ENV
 
       - name: Get image size
