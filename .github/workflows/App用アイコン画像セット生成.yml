@@ -72,6 +72,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
+          base: master
           branch: app-icons
           delete-branch: false
           title: '[Example] Update report'
