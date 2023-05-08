@@ -1,4 +1,9 @@
-# This is a basic workflow to help you get started with Actions
+# 固定名のブランチ app-icons に、1536x1536(px)のPNG画像ファイル
+#  - Sources/Icon_background.png
+#  - Sources/Icon_foreground.png
+# 上記２ファイル（片方でもOK）をpushすると、
+# それらを使った iOS + Android アプリ用アイコン画像リソースファイル一式を
+# AppIcons/ ディレクトリにコミットして、masterへのプルリクエストを発行します。
 
 name: App用アイコン画像セット生成
 
