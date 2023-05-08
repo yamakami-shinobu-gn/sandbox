@@ -62,3 +62,8 @@ jobs:
           git add ./AppIcons
           git commit -m "Update App Icons"
           git push origin app-icons
+
+      # リリース用PRを作成
+      - name: Create release pr
+        run: |
+          gh pr create -B master -t "アイコン画像更新" -b "本文？"
