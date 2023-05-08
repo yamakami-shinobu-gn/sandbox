@@ -56,11 +56,12 @@ jobs:
           fi
 
       - name: Add and Commit
-        uses: EndBug/add-and-commit@v9.1.2
-        with:
-          message: アプリ用アイコンの更新2
-          add: '.'
-          cwd: './AppIcons'
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add './AppIcons'
+          git commit -m "Update App Icons"
+          git push origin app-icons
 
       - name: Create Pull Request
         id: cpr
