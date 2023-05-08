@@ -30,7 +30,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.push.head.sha }}
+          ref: app-icons
 
       - name: Install dependencies
         run: |
@@ -48,7 +48,7 @@ jobs:
           && $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
-            cp -r "$HOME/workdir/AppIcons" .
+            cp -r -f "$HOME/workdir/AppIcons" .
             ls ./AppIcons/iOS
           else
             echo "Invalid image size!"
