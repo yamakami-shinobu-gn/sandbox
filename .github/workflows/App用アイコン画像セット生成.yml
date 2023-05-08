@@ -29,10 +29,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      - name: Run identify command
-        run: identify
-        id: identify_output
+        with:
+          ref: app-icons
 
       - name: Install dependencies
         run: |
@@ -59,8 +57,7 @@ jobs:
       - name: Add and Commit
         uses: EndBug/add-and-commit@v9.1.2
         with:
-          new_branch: app-icons
-          message: アプリ用アイコンの更新
+          message: アプリ用アイコンの更新2
           add: ./AppIcons
 
       - name: Create Pull Request
