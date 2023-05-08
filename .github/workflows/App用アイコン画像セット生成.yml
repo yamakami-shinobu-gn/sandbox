@@ -49,6 +49,7 @@ jobs:
             mkdir -p "$HOME/workdir"
             sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
             cp -r "$HOME/workdir/AppIcons" .
+            ls ./AppIcons/iOS
           else
             echo "Invalid image size!"
             exit 1
