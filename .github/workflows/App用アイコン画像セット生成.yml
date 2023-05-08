@@ -63,13 +63,19 @@ jobs:
           message: アプリ用アイコンの更新
           add: ./AppIcons
 
-      - name: Create pull request
-        uses: repo-sync/pull-request@v2.12.1
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
         with:
-          source_branch: app-icons
-          destination_branch: master
-          pr_title: アプリ用アイコンの更新
-          pr_template: ${{ env.PR_TEMPLATE }}
-          pr_label: ${{ env.PR_LABEL }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
+          token: ${{ secrets.PAT }}
+          commit-message: Update report
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: app-icons
+          delete-branch: false
+          title: '[Example] Update report'
+          body: |
+            Test
+          assignees: yamakami_shinobu_gn
+          draft: false
