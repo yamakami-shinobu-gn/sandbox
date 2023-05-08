@@ -61,6 +61,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add './AppIcons'
           git commit -m "Update App Icons"
+          git log
           git push origin app-icons
 
       - name: Create Pull Request
