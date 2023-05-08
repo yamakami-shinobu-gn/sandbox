@@ -59,7 +59,7 @@ jobs:
       - name: Add and Commit
         uses: EndBug/add-and-commit@v9.1.2
         with:
-          branch: app-icons
+          new_branch: app-icons
           message: アプリ用アイコンの更新
           add: ./AppIcons
 
