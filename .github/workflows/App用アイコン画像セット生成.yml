@@ -58,7 +58,8 @@ jobs:
         uses: EndBug/add-and-commit@v9.1.2
         with:
           message: アプリ用アイコンの更新2
-          add: ./AppIcons
+          add: '.'
+          cwd: './AppIcons'
 
       - name: Create Pull Request
         id: cpr
