@@ -64,7 +64,7 @@ jobs:
           add: ./AppIcons
 
       - name: Create pull request
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@v2.12.1
         with:
           source_branch: app-icons
           destination_branch: master
