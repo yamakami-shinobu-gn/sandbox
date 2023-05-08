@@ -1,6 +1,6 @@
 # 固定名のブランチ app-icons に、1536x1536(px)のPNG画像ファイル
-#  - Sources/Icon_background.png
-#  - Sources/Icon_foreground.png
+#  - AppIconSources/Icon_background.png
+#  - AppIconSources/Icon_foreground.png
 # 上記２ファイル（片方でもOK）をpushすると、
 # それらを使った iOS + Android アプリ用アイコン画像リソースファイル一式を
 # AppIcons/ ディレクトリにコミットして、masterへのプルリクエストを発行します。
@@ -13,8 +13,8 @@ on:
     branches:
       - app-icons
     paths:
-      - Sources/Icon_background.png
-      - Sources/Icon_foreground.png
+      - AppIconSources/Icon_background.png
+      - AppIconSources/Icon_foreground.png
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -50,10 +50,10 @@ jobs:
 
       - name: Generate Image resources for App-Icon
         run: |
-          if [[ $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == "1536,1536" 
-          && $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == ""1536,1536 ]]; then
+          if [[ $(identify -format "%[width],%[height]\n" ./AppIconSources/Icon_background.png) == "1536,1536" 
+          && $(identify -format "%[width],%[height]\n" ./AppIconSources/Icon_background.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
-            sh ./Scripts/makeIcons.sh ./Sources/Icon_background.png ./Sources/Icon_foreground.png $HOME/workdir
+            sh ./Scripts/makeIcons.sh ./AppIconSources/Icon_background.png ./AppIconSources/Icon_foreground.png $HOME/workdir
             cp -r -f "$HOME/workdir/AppIcons" .
             ls ./AppIcons/iOS
           else
