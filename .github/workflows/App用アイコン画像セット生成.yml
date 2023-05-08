@@ -43,7 +43,7 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Check image size
+      - name: Generate Image resources for App-Icon
         run: |
           if [[ $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == "1536,1536" 
           && $(identify -format "%[width],%[height]\n" ./Sources/Icon_background.png) == ""1536,1536 ]]; then
@@ -56,7 +56,7 @@ jobs:
             exit 1
           fi
 
-      - name: Add and Commit
+      - name: Add and commit
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
@@ -64,7 +64,6 @@ jobs:
           git commit -m "Update App Icons"
           git push origin app-icons
 
-      # リリース用PRを作成
-      - name: Create release pr
+      - name: Create Pull request
         run: |
-          gh pr create -B master -t "アイコン画像更新" -b "本文？"
+          gh pr create -B master -t "アイコン画像更新" -b "アプリ用アイコン画像リソースファイル一式（自動生成）"
