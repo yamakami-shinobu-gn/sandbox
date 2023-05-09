@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# usage:
+# 
+
+if [ $# -ne 3 ];then
+    echo "Usage: $0 <background png> <foreground png> <out path>";
+    echo "  <background png> and <foreground png> needed size [1536x1536]";
+    exit 1
+fi
+
 mkdir -p "$3/app_icons/Android/GooglePlay"
 mkdir -p "$3/app_icons/Android/drawable-mdpi"
 mkdir -p "$3/app_icons/Android/drawable-hdpi"
