@@ -29,7 +29,7 @@ jobs:
     env:
       # Setting an environment variable with the value of a configuration variable
       #env_var: ${{ vars.ENV_CONTEXT_VAR }}
-      #GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
