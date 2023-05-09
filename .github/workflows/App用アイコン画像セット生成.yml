@@ -53,6 +53,7 @@ jobs:
           if [[ $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_background.png) == "1536,1536" 
           && $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_foreground.png) == ""1536,1536 ]]; then
             git switch -C app-icons
+            git pull origin app-icons
             mkdir -p "$HOME/workdir"
             sh ./scripts/makeIcons.sh ./app_icon_sources/app_icon_background.png ./app_icon_sources/app_icon_foreground.png $HOME/workdir
             cp -r -f "$HOME/workdir/app_icons" .
