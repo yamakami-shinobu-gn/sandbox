@@ -48,15 +48,18 @@ jobs:
           mv magick "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Delete app-icons branch if it exists
+        run: |
+          git fetch --all
+          if git show-ref --verify --quiet refs/remotes/origin/app-icons; then
+            git push --delete origin app-icons
+          fi
+    
       - name: Generate Image resources for App-Icon
         run: |
           if [[ $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_background.png) == "1536,1536" 
           && $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_foreground.png) == ""1536,1536 ]]; then
             git switch -c app-icons
-            git ls-remote --heads --exit-code origin "$(git symbolic-ref --short HEAD)"
-            if [ $? -eq 0 ]; then
-              git push origin --delete app-icons
-            fi
             mkdir -p "$HOME/workdir"
             sh ./scripts/makeIcons.sh ./app_icon_sources/app_icon_background.png ./app_icon_sources/app_icon_foreground.png $HOME/workdir
             cp -r -f "$HOME/workdir/app_icons" .
