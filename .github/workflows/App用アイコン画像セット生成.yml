@@ -53,7 +53,7 @@ jobs:
           if [[ $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_background.png) == "1536,1536" 
           && $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_foreground.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
-            sh ./Scripts/makeIcons.sh ./app_icon_sources/app_icon_background.png ./app_icon_sources/app_icon_foreground.png $HOME/workdir
+            sh ./scripts/makeIcons.sh ./app_icon_sources/app_icon_background.png ./app_icon_sources/app_icon_foreground.png $HOME/workdir
             cp -r -f "$HOME/workdir/app_icons" .
           else
             echo "Invalid image size!"
