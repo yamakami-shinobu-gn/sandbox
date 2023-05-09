@@ -1,9 +1,9 @@
 # 固定名のブランチ app-icons に、1536x1536(px)のPNG画像ファイル
-#  - AppIconSources/Icon_background.png
-#  - AppIconSources/Icon_foreground.png
+#  - app_icon_sources/app_icon_background.png
+#  - app_icon_sources/app_icon_foreground.png
 # 上記２ファイル（片方でもOK）をpushすると、
 # それらを使った iOS + Android アプリ用アイコン画像リソースファイル一式を
-# AppIcons/ ディレクトリにコミットして、masterへのプルリクエストを発行します。
+# app_icons/ ディレクトリにコミットして、masterへのプルリクエストを発行します。
 
 name: App用アイコン画像セット生成
 
@@ -11,10 +11,10 @@ name: App用アイコン画像セット生成
 on:
   push:
     branches:
-      - app-icons
+      - master
     paths:
-      - AppIconSources/Icon_background.png
-      - AppIconSources/Icon_foreground.png
+      - app_icon_sources/app_icon_background.png
+      - app_icon_sources/app_icon_foreground.png
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -50,12 +50,11 @@ jobs:
 
       - name: Generate Image resources for App-Icon
         run: |
-          if [[ $(identify -format "%[width],%[height]\n" ./AppIconSources/Icon_background.png) == "1536,1536" 
-          && $(identify -format "%[width],%[height]\n" ./AppIconSources/Icon_background.png) == ""1536,1536 ]]; then
+          if [[ $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_background.png) == "1536,1536" 
+          && $(identify -format "%[width],%[height]\n" ./app_icon_sources/app_icon_foreground.png) == ""1536,1536 ]]; then
             mkdir -p "$HOME/workdir"
-            sh ./Scripts/makeIcons.sh ./AppIconSources/Icon_background.png ./AppIconSources/Icon_foreground.png $HOME/workdir
-            cp -r -f "$HOME/workdir/AppIcons" .
-            ls ./AppIcons/iOS
+            sh ./Scripts/makeIcons.sh ./app_icon_sources/app_icon_background.png ./app_icon_sources/app_icon_foreground.png $HOME/workdir
+            cp -r -f "$HOME/workdir/app_icons" .
           else
             echo "Invalid image size!"
             exit 1
@@ -65,10 +64,10 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add ./AppIcons
-          git commit -m "Update App Icons"
+          git add ./app_icons
+          git commit -m "Appアイコン更新"
           git push origin app-icons
 
       - name: Create Pull request
         run: |
-          gh pr create -B master -t "アイコン画像更新" -b "アプリ用アイコン画像リソースファイル一式（自動生成）"
+          gh pr create -B master -t "Appアイコン更新" -b "アプリ用アイコン画像リソースファイル一式（自動生成）"
