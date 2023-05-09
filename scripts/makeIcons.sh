@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# usage:
-# 
+# 背景用（不透明）・意匠用（背景透明）の２つのPNGファイルからアプリ用アイコン一式を生成します
+# ImageMagickを使用します
+# 画像はそれぞれ 1536 ピクセル四方である必要があります
 
 if [ $# -ne 3 ];then
     echo "Usage: $0 <background png> <foreground png> <out path>";
